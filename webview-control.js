@@ -1,3 +1,15 @@
+(() => {
+
+///////////////////////////////////////////////////////////
+// כל הקוד שלך — כפי שהוא היום
+///////////////////////////////////////////////////////////
+
+window.updateData = function (newPayloads) {
+  payloads = Array.isArray(newPayloads) ? newPayloads : [];
+  renderAll();
+};
+
+})();
 // payloads = מערך של כל המסלולים
 let payloads = [];
 let initialized = false;
@@ -364,4 +376,4 @@ window.updateData = function (newPayloads) {
   payloads = Array.isArray(newPayloads) ? newPayloads : [];
   renderAll();
 };
-void 0;
+})();
