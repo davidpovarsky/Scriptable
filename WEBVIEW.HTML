@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>מסלולי קווים</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:
+opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=directions_bus" />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+  .material-symbols-outlined {
+    font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24;
+    font-size: 26px;
+    line-height: 1;
+  }
+  :root { color-scheme: light dark; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f4f4f4; color: #111; direction: rtl;
+  }
+
+  #topContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+
+  #map {
+    width: 100%;
+    height: 260px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  #routesContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    padding: 8px;
+    overflow-x: auto;
+    box-sizing: border-box;
+    flex: 1 1 auto;
+  }
+
+  .route-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    min-width: 320px;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  header {
+    background: #1976d2; color: #fff; padding: 10px 14px;
+    display: flex; flex-direction: column; gap: 4px;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  header .line-main { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  header .route-number { font-weight: 700; font-size: 20px; padding: 2px 8px; border-radius: 999px; background: rgba(0,0,0,0.25); }
+  header .headsign { font-size: 15px; font-weight: 500; }
+  header .sub { font-size: 11px; opacity: 0.9; display: flex; justify-content: space-between; gap: 10px; }
+
+  .stops-list {
+    background: #fff; position: relative; overflow: hidden;
+    padding: 0; padding-bottom: 20px;
+    transform: translate3d(0,0,0);
+  }
+
+  .stops-rows { width: 100%; }
+
+  .stop-row { display: flex; flex-direction: row; align-items: stretch; gap: 0; min-height: 50px; }
+
+  .timeline { width: 50px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; position: relative; }
+  .timeline-line { width: 4px; background: #e0e0e0; flex: 1; }
+  .timeline-circle { width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 3px solid #1976d2; box-sizing: border-box; z-index: 2; margin: -2px 0; }
+  .timeline.first .line-top { visibility: hidden; }
+  .timeline.last .line-bottom { visibility: hidden; }
+
+  .stop-main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 8px 10px 8px 0; border-bottom: 1px solid #f0f0f0; }
+  .stop-name { font-size: 15px; font-weight: 600; display: flex; gap: 4px; }
+  .seq-num { color: #1976d2; font-weight: 700; min-width: 18px; }
+  .stop-code { font-size: 11px; color: #777; margin-right: 22px; }
+  .stop-buses { margin-top: 6px; margin-right: 22px; display: flex; flex-wrap: wrap; gap: 4px; }
+
+  .bus-chip { border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; display: inline-flex; align-items: center; }
+  .bus-soon { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+  .bus-mid  { background: #fffde7; color: #f9a825; border: 1px solid #fff9c4; }
+  .bus-far  { background: #e1f5fe; color: #0277bd; border: 1px solid #b3e5fc; }
+  .bus-late { background: #f5f5f5; color: #757575; border: 1px solid #e0e0e0; }
+
+  .footer-note-global { margin: 4px 0 10px; font-size: 10px; color: #999; text-align: center; }
+
+  .bus-icon {
+    position: absolute;
+    right: 25px;
+    font-size: 24px;
+    z-index: 50;
+    pointer-events: none;
+    will-change: top;
+    transform: translate3d(50%, -50%, 0);
+    -webkit-transform: translate3d(50%, -50%, 0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    transition: top 1s linear;
+  }
+  </style>
+</head>
+<body>
+
+<div id="topContainer">
+  <div id="map"></div>
+  <div id="routesContainer"></div>
+</div>
+
+<div class="footer-note-global">המיקום מוערך ע"י המערכת (ETA) • המפה מבוססת על מסלולי shape של KavNav.</div>
+</body>
+</html>
