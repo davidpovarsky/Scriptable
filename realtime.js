@@ -83,7 +83,6 @@ globalThis.startRealtimeLoop = function (wv) {
   let keepRefreshing = true;
 
   async function loop() {
-    // snapshot ראשון
     await pushRealtimeOnce(wv);
 
     while (keepRefreshing) {
@@ -93,10 +92,8 @@ globalThis.startRealtimeLoop = function (wv) {
     }
   }
 
-  loop(); // מפעילים לולאה אסינכרונית
+  loop();
 
-  // לעצור כאשר WebView נסגר
-  wv.waitForClose().then(() => {
-    keepRefreshing = false;
-  });
+  // ❌ waitForClose בוטל ב-Scriptable החדש
+  // אין צורך לנסות להאזין לסגירת ה-WebView
 };
